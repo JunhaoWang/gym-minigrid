@@ -15,6 +15,7 @@ from gym_minigrid.envs.playground_v0 import *
 from gym_minigrid.envs.redbluedoors import *
 from gym_minigrid.envs.obstructedmaze import *
 from gym_minigrid.envs.memory import *
+from gym_minigrid.envs.fourroomsaddict import *
 from gym_minigrid.envs.fourrooms import *
 from gym_minigrid.envs.crossing import *
 from gym_minigrid.envs.dynamicobstacles import *

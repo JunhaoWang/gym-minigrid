@@ -11,10 +11,10 @@ class FourRoomsAddict2Env(MiniGridEnv):
     Can specify agent and goal position, if not it set at random.
     """
 
-    def __init__(self, agent_pos=(1,1), goal_pos=(8,13)):
+    def __init__(self, agent_pos=(1,1), goal_pos=(4,9)):
         self._agent_default_pos = agent_pos
         self._goal_default_pos = goal_pos
-        super().__init__(grid_size=19, max_steps=100)
+        super().__init__(grid_size=11, max_steps=100)
 
     def _gen_grid(self, width, height):
         # Create the grid
@@ -82,7 +82,7 @@ class FourRoomsAddictEnv(MiniGridEnv):
     def __init__(self, agent_pos=(1,1), goal_pos=(17,17)):
         self._agent_default_pos = agent_pos
         self._goal_default_pos = goal_pos
-        super().__init__(grid_size=19, max_steps=100)
+        super().__init__(grid_size=11, max_steps=100)
 
     def _gen_grid(self, width, height):
         # Create the grid

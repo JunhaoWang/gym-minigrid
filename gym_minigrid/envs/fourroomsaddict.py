@@ -213,6 +213,18 @@ class FourRoomsAddict3Env(MiniGridEnv):
         obs, reward, done, info = MiniGridEnv.step(self, action)
         return obs, reward, done, info
 
+class FourRoomsAddict4Env(FourRoomsAddict3Env):
+    def __init__(self):
+        super().__init__(goal_pos=(8,6))
+
+class FourRoomsAddict5Env(FourRoomsAddict3Env):
+    def __init__(self):
+        super().__init__(goal_pos=(8,7))
+
+class FourRoomsAddict6Env(FourRoomsAddict3Env):
+    def __init__(self):
+        super().__init__(goal_pos=(8,8))
+
 register(
     id='MiniGrid-FourRoomsAddictExpert-v0',
     entry_point='gym_minigrid.envs:FourRoomsAddict2Env'
@@ -226,4 +238,19 @@ register(
 register(
     id='MiniGrid-FourRoomsAddict2-v0',
     entry_point='gym_minigrid.envs:FourRoomsAddict3Env'
+)
+
+register(
+    id='MiniGrid-FourRoomsAddict3-v0',
+    entry_point='gym_minigrid.envs:FourRoomsAddict4Env'
+)
+
+register(
+    id='MiniGrid-FourRoomsAddict4-v0',
+    entry_point='gym_minigrid.envs:FourRoomsAddict5Env'
+)
+
+register(
+    id='MiniGrid-FourRoomsAddict5-v0',
+    entry_point='gym_minigrid.envs:FourRoomsAddict6Env'
 )

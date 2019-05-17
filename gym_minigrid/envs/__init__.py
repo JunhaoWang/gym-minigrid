@@ -18,6 +18,7 @@ from gym_minigrid.envs.memory import *
 from gym_minigrid.envs.fourroomsaddict import *
 from gym_minigrid.envs.fourrooms import *
 from gym_minigrid.envs.crossing import *
+from gym_minigrid.envs.crossing_addict import *
 from gym_minigrid.envs.dynamicobstacles import *
 from gym_minigrid.envs.distshift import *
 from gym_minigrid.envs.distshift_addict import *

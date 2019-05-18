@@ -128,7 +128,8 @@ class FourRoomsAddictMovingGoalRoom2Env(MiniGridEnv):
         else:
             self.place_agent()
 
-        self.place_obj(Goal(), top = (1,7), size = (4,4))
+        self.place_obj(Goal(), top = (7,1), size = (4,4))
+        self.grid.set(4, 8, Lava())
 
         self.mission = 'Reach the goal'
 

@@ -79,9 +79,10 @@ class FourRoomsAddictMovingGoalRoom2Env(MiniGridEnv):
     Can specify agent and goal position, if not it set at random.
     """
 
-    def __init__(self, agent_pos=(1,1), goal_pos=None):
+    def __init__(self, agent_pos=(1,1), goal_pos=None, room = 2):
         self._agent_default_pos = agent_pos
         self._goal_default_pos = goal_pos
+        self.room = room
         super().__init__(grid_size=11, max_steps=100)
 
     def _gen_grid(self, width, height):
@@ -128,7 +129,11 @@ class FourRoomsAddictMovingGoalRoom2Env(MiniGridEnv):
         else:
             self.place_agent()
 
-        self.place_obj(Goal(), top = (7,1), size = (4,4))
+        if self.room == 2 :
+            self.place_obj(Goal(), top = (7,1), size = (4,4))
+        if self.room == 4 :
+            self.place_obj(Goal(), top = (7,6), size=(4, 4))
+
         self.grid.set(4, 8, Lava())
 
         self.mission = 'Reach the goal'
@@ -289,6 +294,10 @@ class FourRoomsAddict6Env(FourRoomsAddict3Env):
     def __init__(self):
         super().__init__(goal_pos=(8,8))
 
+class FourRoomsAddictMovingGoalRoom4Env(FourRoomsAddictMovingGoalRoom2Env):
+    def __init__(self):
+        super().__init__(goal_pos=(8,8), room=4)
+
 register(
     id='MiniGrid-FourRoomsAddictExpert-v0',
     entry_point='gym_minigrid.envs:FourRoomsAddict2Env'
@@ -322,5 +331,10 @@ register(
 register(
     id='MiniGrid-FourRoomsAddictMovingGoalRoom2-v0',
     entry_point='gym_minigrid.envs:FourRoomsAddictMovingGoalRoom2Env'
+)
+
+register(
+    id='MiniGrid-FourRoomsAddictMovingGoalRoom4-v0',
+    entry_point='gym_minigrid.envs:FourRoomsAddictMovingGoalRoom4Env'
 )
 

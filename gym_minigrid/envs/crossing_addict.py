@@ -277,7 +277,7 @@ register(
 
 register(
     id='MiniGrid-LavaCrossingAgent4-v0',
-    entry_point='gym_minigrid.envs:LavaCrossingAgent5Env'
+    entry_point='gym_minigrid.envs:LavaCrossingAgent4Env'
 )
 
 register(

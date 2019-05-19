@@ -30,7 +30,7 @@ class ArbitraryRoomsEnv(MiniGridEnv):
             goal_pos = (self._map.shape[0], self._map.shape[1])
         self._agent_default_pos = agent_pos
         self._goal_default_pos = goal_pos
-        super().__init__(grid_size=np.max([self._map.shape[0], self._map.shape[1]]), max_steps=maxsteps)
+        super().__init__(grid_size=np.max([self._map.shape[0] + 2, self._map.shape[1] + 2]), max_steps=maxsteps)
 
     def _gen_grid(self, width, height):
         # bullshit

@@ -9,12 +9,13 @@ import numpy as np
 # 0: None, 1: wall, 2: lava, 3: goal
 defaultArbitraryRoom = np.array(
     [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
+        [0, 0, 0, 3],
+        [0, 1, 1, 0],
+        [0, 2, 0, 0]
     ]
 )
+
+defaultArbitraryRoom = defaultArbitraryRoom.T
 
 class ArbitraryRoomsEnv(MiniGridEnv):
     """
@@ -22,15 +23,14 @@ class ArbitraryRoomsEnv(MiniGridEnv):
     Can specify agent and goal position, if not it set at random.
     """
 
-    def __init__(self, agent_pos=None, goal_pos=None, simplemap=defaultArbitraryRoom, maxsteps=100):
+    def __init__(self, agent_pos=None, simplemap=defaultArbitraryRoom, maxsteps=100):
         self._map = simplemap
         if agent_pos is None:
             agent_pos = (1,1)
-        if goal_pos is None:
-            goal_pos = (self._map.shape[0], self._map.shape[1])
+
         self._agent_default_pos = agent_pos
-        self._goal_default_pos = goal_pos
-        super().__init__(grid_size=np.max([self._map.shape[0] + 2, self._map.shape[1] + 2]), max_steps=maxsteps)
+
+        super().__init__(width=self._map.shape[0] + 2, height= self._map.shape[1] + 2, max_steps=maxsteps)
 
     def _gen_grid(self, width, height):
         # bullshit
@@ -40,7 +40,7 @@ class ArbitraryRoomsEnv(MiniGridEnv):
         # Create the grid
         self.grid = Grid(width, height)
 
-        # self.grid.wall_rect(0, 0, width, height)
+        self.grid.wall_rect(0, 0, width, height)
 
         # Create other shit
         for row_idx, row in enumerate(self._map):
@@ -67,12 +67,6 @@ class ArbitraryRoomsEnv(MiniGridEnv):
         else:
             self.place_agent()
 
-        if self._goal_default_pos is not None:
-            goal = Goal()
-            self.grid.set(*self._goal_default_pos, goal)
-            goal.init_pos, goal.cur_pos = self._goal_default_pos
-        else:
-            self.place_obj(Goal())
 
         self.mission = 'Reach the goal'
 

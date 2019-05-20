@@ -23,3 +23,5 @@ from gym_minigrid.envs.dynamicobstacles import *
 from gym_minigrid.envs.distshift import *
 from gym_minigrid.envs.distshift_addict import *
 from gym_minigrid.envs.arbitraryrooms import *
+from gym_minigrid.envs.twobythreerooms import *
+from gym_minigrid.envs.twobythreeroomsaddict import *

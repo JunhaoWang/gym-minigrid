@@ -25,3 +25,7 @@ from gym_minigrid.envs.distshift_addict import *
 from gym_minigrid.envs.arbitraryrooms import *
 from gym_minigrid.envs.twobythreerooms import *
 from gym_minigrid.envs.twobythreeroomsaddict import *
+from gym_minigrid.envs.flowerrooms import *
+from gym_minigrid.envs.flowerroomsaddict import *
+from gym_minigrid.envs.superflowerrooms import *
+from gym_minigrid.envs.superflowerroomsaddict import *

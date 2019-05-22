@@ -5,56 +5,52 @@ from gym_minigrid.minigrid import *
 from gym_minigrid.register import register
 import numpy as np
 
-from functools import reduce
 
-room_size = 3
-if room_size // 2 == room_size / 2:
-    room_size = room_size + 1
-
-num_room = 2
+room_size = 5
 
 empty_map = [
-                reduce(lambda x, y: x + y, [[0] * room_size + [1]] * num_room) + [0] * room_size
-            ] * (room_size // 2) + \
-            [
-                [0] * ((num_room + 1) * (room_size + 1) - 1)
-            ] + \
-            [
-                reduce(lambda x, y: x + y, [[0] * room_size + [1]] * num_room) + [0] * room_size
-            ] * (room_size // 2) + \
-            [
-                [1] * (room_size // 2) + [0] + [1] * ((num_room + 1) * (room_size + 1) - 2 - (room_size // 2))
-            ] + \
-            [
-                [0] * ((num_room + 1) * (room_size + 1) - 1)
-            ] * room_size
+    [1] * room_size + [0] + [1] * room_size
+] * room_size + \
+[
+    [0] * (room_size * 2 + 1)
+] + \
+[
+    [1] * room_size + [0] + [1] * room_size
+] * room_size
 
 simplemap = np.array(empty_map)
 
-simplemap[room_size // 2][((num_room + 1) * (room_size + 1) - 2 - (room_size // 2))] = 3
+simplemap[0][room_size] = 2
 
-simplemap[room_size + room_size // 2 + 1][((num_room + 1) * (room_size + 1) - 2 - (room_size // 2))] = 2
+simplemap[room_size][room_size * 2] = 3
 
+simplemap[room_size][0] = 2
+
+simplemap[room_size * 2][room_size] = 2
 
 ## not considering surrounding wall becasue such is stupid
 # 0: None, 1: wall, 2: lava, 3: goal
 defaultArbitraryRoom = np.array(
     [
-        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
-        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1],
+        [1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1]
     ]
 )
 
 defaultArbitraryRoom = defaultArbitraryRoom.T
 
-defaultAgentPose = (1,1)
+defaultAgentPose = (room_size + 1, room_size + 1)
 
-class TwoByThreeRoomsEnv(MiniGridEnv):
+class JesuitRoomsEnv(MiniGridEnv):
     """
     Classic arbitrary rooms gridworld environment given a surrounding-wall-removed numpy map.
     Can specify agent and goal position, if not it set at random.
@@ -113,6 +109,6 @@ class TwoByThreeRoomsEnv(MiniGridEnv):
 
 
 register(
-    id='MiniGrid-TwoByThreeRoomsEnv-v0',
-    entry_point='gym_minigrid.envs:TwoByThreeRoomsEnv'
+    id='MiniGrid-JesuitRoomsEnv-v0',
+    entry_point='gym_minigrid.envs:JesuitRoomsEnv'
 )

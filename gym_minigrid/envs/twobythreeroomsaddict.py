@@ -7,21 +7,22 @@ import numpy as np
 
 ## not considering surrounding wall becasue such is stupid
 # 0: None, 1: wall, 2: lava, 3: goal
+
 defaultArbitraryRoom = np.array(
     [
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
-        [0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+        [1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
 )
 
 defaultArbitraryRoom = defaultArbitraryRoom.T
+
+defaultAgentPose = (1,1)
 
 class TwoByThreeRoomsAddictEnv(MiniGridEnv):
     """
@@ -29,7 +30,7 @@ class TwoByThreeRoomsAddictEnv(MiniGridEnv):
     Can specify agent and goal position, if not it set at random.
     """
 
-    def __init__(self, agent_pos=None, simplemap=defaultArbitraryRoom, maxsteps=100):
+    def __init__(self, agent_pos=defaultAgentPose, simplemap=defaultArbitraryRoom, maxsteps=100):
         self._map = simplemap
         if agent_pos is None:
             agent_pos = (1,1)
@@ -79,7 +80,6 @@ class TwoByThreeRoomsAddictEnv(MiniGridEnv):
     def step(self, action):
         obs, reward, done, info = MiniGridEnv.step(self, action)
         return obs, reward, done, info
-
 
 register(
     id='MiniGrid-TwoByThreeRoomsAddictEnv-v0',

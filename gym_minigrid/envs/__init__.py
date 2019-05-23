@@ -31,3 +31,5 @@ from gym_minigrid.envs.superflowerrooms import *
 from gym_minigrid.envs.superflowerroomsaddict import *
 from gym_minigrid.envs.jesuitrooms import *
 from gym_minigrid.envs.jesuitroomsaddict import *
+from gym_minigrid.envs.supergridrooms import *
+from gym_minigrid.envs.supergridroomsaddict import *

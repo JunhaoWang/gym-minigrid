@@ -3,64 +3,57 @@
 
 from gym_minigrid.minigrid import *
 from gym_minigrid.register import register
+from functools import reduce
 import numpy as np
 
+room_size = 2
 
-room_size = 10
+path_size = 1
+if path_size // 2 == path_size / 2:
+    path_size = path_size + 1
 
-empty_map = [
-    [1] * room_size + [0] + [1] * room_size
-] * room_size + \
-[
-    [0] * (room_size * 2 + 1)
-] + \
-[
-    [1] * room_size + [0] + [1] * room_size
-] * room_size
+num_room = 3
+if num_room // 2 != num_room / 2:
+    num_room = num_room + 1
 
-simplemap = np.array(empty_map)
+empty_map = ([
+                 [0] * ((room_size + path_size) * num_room + path_size)
+             ] * path_size + \
+             [
+                 reduce(lambda x, y: x + y, [[0] * path_size + [1] * room_size] * num_room) + [0] * path_size
+             ] * room_size) * num_room + \
+            [
+                [0] * ((room_size + path_size) * num_room + path_size)
+            ] * path_size
 
-simplemap[0][room_size] = 2
-
-simplemap[room_size][room_size * 2] = 3
-
-simplemap[room_size][0] = 2
-
-simplemap[room_size * 2][room_size] = 2
+grid_size = ((room_size + path_size) * num_room + path_size)
 
 ## not considering surrounding wall becasue such is stupid
 # 0: None, 1: wall, 2: lava, 3: goal
 defaultArbitraryRoom = np.array(
     [
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+        [2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3]
     ]
 )
 
+
 defaultArbitraryRoom = defaultArbitraryRoom.T
 
-defaultAgentPose = (room_size + 1, room_size + 1)
+defaultAgentPose = (grid_size//2 + 1, grid_size//2 + 1)
 
-class JesuitRoomsEnv(MiniGridEnv):
+class SupergridRoomsEnv(MiniGridEnv):
     """
     Classic arbitrary rooms gridworld environment given a surrounding-wall-removed numpy map.
     Can specify agent and goal position, if not it set at random.
@@ -119,6 +112,6 @@ class JesuitRoomsEnv(MiniGridEnv):
 
 
 register(
-    id='MiniGrid-JesuitRoomsEnv-v0',
-    entry_point='gym_minigrid.envs:JesuitRoomsEnv'
+    id='MiniGrid-SupergridRoomsEnv-v0',
+    entry_point='gym_minigrid.envs:SupergridRoomsEnv'
 )
